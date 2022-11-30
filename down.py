@@ -15,7 +15,7 @@ def downloader(image_url, count):
     if not os.path.exists(NEW_PATH):
         os.makedirs(NEW_PATH)  
 
-    full_file_name = NEW_PATH +"/"+ str(count) + EXTENSION
+    full_file_name = f"{NEW_PATH}/{str(count)}{EXTENSION}"
     request = urllib.request.urlopen(image_url, timeout=TIMEOUT_MAX_WAIT)
     with open(full_file_name, PERMISSION_B_WRITE) as file:
         try:
@@ -26,16 +26,12 @@ def downloader(image_url, count):
 print("Starting")
 print("Trying open base archive")
 with open(ARCHIVE_NAME, PERMISSION_READ) as base:
-    count = 0
-    for link in base:
-        count += 1        
+    for count, link in enumerate(base, start=1):
         print("Downloading image ",count)
         try:
             downloader(link.replace("\n", ""), count)         
             print("Sucessfull download image ", count)
         except:
             print("Error download image " ,count)
-            continue
-
 print("Ended")
         
